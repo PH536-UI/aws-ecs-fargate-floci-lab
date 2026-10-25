@@ -1,5 +1,7 @@
 # AWS ECS Fargate Delivery Lab, com Floci
 
+🇧🇷 Português | [🇺🇸 English](README.en.md)
+
 Laboratório de portfólio que empacota uma aplicação web em Docker, publica a imagem em um ECR **emulado** e a executa como tarefa/serviço ECS Fargate **emulado**. A infraestrutura é declarada em Terraform e validada no GitHub Actions.
 
 > **Transparência:** este projeto usa [Floci](https://github.com/floci-io/floci) em Linux local. Ele emula APIs e comportamentos selecionados da AWS com Docker. Nenhuma conta AWS, recurso AWS real ou cobrança cloud é usada por este repositório. Isso não é uma implantação em produção na AWS.
@@ -66,6 +68,13 @@ docker compose down
 - Floci não é AWS e não equivale a disponibilidade, segurança, performance, permissões e cobrança de uma conta real.
 - O GitHub Actions **não faz deploy**: runners hospedados não acessam Floci local e o projeto não armazena credenciais cloud.
 - Antes de adaptar para AWS real, revise IAM, VPC, subnets, NAT/load balancer, logs, segredos, custos e controles de segurança. A configuração da AWS CLI será uma etapa deliberada dessa migração, não deste laboratório.
+
+## Documentação
+- [Decisões de arquitetura](docs/architecture.md)
+- [Custos e segurança](docs/cost-and-safety.md)
+- [Runbook local](docs/runbook.md)
+- [Resumo para portfólio](docs/portfolio-summary.md)
+- [English documentation](docs/en/)
 
 ## Licença
 MIT. Veja [LICENSE](LICENSE).
