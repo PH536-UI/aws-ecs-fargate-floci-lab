@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Check application syntax
+        run: python -m py_compile app/server.py
+
+      - name: Build container image
+        run: docker build --tag ph-ecs-demo:ci ./app
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: "1.9.8"
+
+      - name: Terraform format check
+        working-directory: infra
+        run: terraform fmt -check -recursive
+
+      - name: Terraform initialization
+        working-directory: infra
+        run: terraform init -backend=false
+
+      - name: Terraform validation
+        working-directory: infra
+        run: terraform validate
+
+# Deliberately no deployment here: GitHub-hosted runners cannot reach
+# the developer local Floci instance, and no cloud credentials are stored.
