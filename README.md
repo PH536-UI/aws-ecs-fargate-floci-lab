@@ -4,6 +4,18 @@ Laboratório de portfólio que empacota uma aplicação web em Docker, publica a
 
 > **Transparência:** este projeto usa [Floci](https://github.com/floci-io/floci) em Linux local. Ele emula APIs e comportamentos selecionados da AWS com Docker. Nenhuma conta AWS, recurso AWS real ou cobrança cloud é usada por este repositório. Isso não é uma implantação em produção na AWS.
 
+## Resultado local verificado
+
+Em 25 de outubro de 2026, o fluxo local foi executado e a saída do ECS emulado confirmou:
+
+- Serviço `ph-ecs-fargate-lab-app` em estado `ACTIVE`.
+- `desiredCount: 1`, `runningCount: 1` e `pendingCount: 0`.
+- Launch type `FARGATE` e plataforma Linux.
+- Deployment primário com `rolloutState: COMPLETED`.
+- Evento do serviço: `has reached a steady state`.
+
+A evidência sanitizada está em [docs/evidence/local-ecs-deployment-2026-10-25.md](docs/evidence/local-ecs-deployment-2026-10-25.md). Esse resultado valida o fluxo local no Floci, e não uma execução em uma conta AWS real.
+
 ## O que este laboratório demonstra
 - Dockerização de uma aplicação HTTP mínima.
 - Registro de imagem via API compatível com Amazon ECR.
