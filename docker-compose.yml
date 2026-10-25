@@ -10,12 +10,14 @@ services:
       - floci-data:/app/data
       # Required for emulated ECS tasks and ECR registry sidecar.
       - /var/run/docker.sock:/var/run/docker.sock
+    # Docker Desktop exposes the mounted socket with GID 1001 in this WSL setup.
+    # The Floci process remains unprivileged, so it needs this supplemental group.
+    group_add:
+      - "1001"
     environment:
       FLOCI_LOG_LEVEL: info
       # Docker Engine 29 uses the containerd image store.
       FLOCI_SERVICES_ECR_URI_STYLE: path
-      # Docker Desktop socket is root-owned; required for ECR/ECS sidecars.
-      FLOCI_RUN_AS_ROOT: "true"
 
 volumes:
   floci-data:
