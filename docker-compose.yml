@@ -1,0 +1,10 @@
+services:
+  floci:
+    image: floci/floci:latest
+    container_name: ph-floci-ecs
+    ports:
+      - "4566:4566"
+    volumes:
+      - ./data/floci:/app/data
+    environment:
+      FLOCI_LOG_LEVEL: info
