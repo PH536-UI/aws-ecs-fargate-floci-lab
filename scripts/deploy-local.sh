@@ -3,7 +3,6 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 ENDPOINT="${FLOCI_ENDPOINT:-http://localhost:4566}"
-REGION="${AWS_REGION:-us-east-1}"
 IMAGE_TAG="${IMAGE_TAG:-v1}"
 
 "$ROOT_DIR/scripts/check-prerequisites.sh"
@@ -25,6 +24,12 @@ if [ "$ready" != "true" ]; then
   exit 1
 fi
 
+# AWS CLI runs only inside the Floci compat container. No host AWS setup,
+# credentials or AWS account is used by this lab.
+floci_aws() {
+  docker compose exec -T floci aws "$@"
+}
+
 pushd infra >/dev/null
 terraform init
 terraform apply -auto-approve -var="floci_endpoint=$ENDPOINT" -var="image_tag=$IMAGE_TAG"
@@ -32,14 +37,14 @@ REPOSITORY_URL="$(terraform output -raw ecr_repository_url)"
 popd >/dev/null
 
 REGISTRY_HOST="${REPOSITORY_URL%%/*}"
-aws --endpoint-url "$ENDPOINT" --region "$REGION" ecr get-login-password | docker login --username AWS --password-stdin "$REGISTRY_HOST"
+floci_aws ecr get-login-password | docker login --username AWS --password-stdin "$REGISTRY_HOST"
 docker build --tag "${REPOSITORY_URL}:${IMAGE_TAG}" app
 docker push "${REPOSITORY_URL}:${IMAGE_TAG}"
 
 pushd infra >/dev/null
 terraform apply -auto-approve -var="floci_endpoint=$ENDPOINT" -var="image_tag=$IMAGE_TAG" -var="deploy_application=true"
 printf "\nDeployment evidence:\n"
-aws --endpoint-url "$ENDPOINT" --region "$REGION" ecs describe-services --cluster "$(terraform output -raw ecs_cluster_name)" --services "$(terraform output -raw service_name)"
+floci_aws ecs describe-services --cluster "$(terraform output -raw ecs_cluster_name)" --services "$(terraform output -raw service_name)"
 popd >/dev/null
 
 printf "\nLocal deployment requested successfully. Capture the final ECS output in docs/evidence/.\n"
