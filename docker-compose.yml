@@ -1,10 +1,14 @@
 services:
   floci:
-    image: floci/floci:latest
+    # The compat image keeps AWS CLI inside the emulator container.
+    # Nothing needs to be installed or configured on the host.
+    image: floci/floci:latest-compat
     container_name: ph-floci-ecs
     ports:
       - "4566:4566"
     volumes:
       - ./data/floci:/app/data
+      # Required for Floci to run emulated ECS tasks as Docker containers.
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       FLOCI_LOG_LEVEL: info
