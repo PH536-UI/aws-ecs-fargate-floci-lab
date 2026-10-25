@@ -7,7 +7,8 @@ services:
     ports:
       - "4566:4566"
     volumes:
-      - ./data/floci:/app/data
+      # Docker-managed volume avoids WSL bind-mount ownership conflicts.
+      - floci-data:/app/data
       # Required for Floci to run emulated ECS tasks as Docker containers.
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
@@ -15,3 +16,6 @@ services:
       # Docker Engine 29 uses the containerd image store. A path-style
       # localhost registry avoids an HTTPS mismatch on *.localhost.
       FLOCI_SERVICES_ECR_URI_STYLE: path
+
+volumes:
+  floci-data:
