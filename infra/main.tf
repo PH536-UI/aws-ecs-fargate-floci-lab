@@ -41,7 +41,7 @@ resource "aws_vpc" "lab" {
   cidr_block           = "10.42.0.0/16"
   enable_dns_hostnames = true
   enable_dns_support   = true
-  tags = merge(local.common_tags, { Name = "${var.project_name}-vpc" })
+  tags                 = merge(local.common_tags, { Name = "${var.project_name}-vpc" })
 }
 
 resource "aws_subnet" "lab" {
@@ -49,7 +49,7 @@ resource "aws_subnet" "lab" {
   cidr_block              = "10.42.1.0/24"
   availability_zone       = "${var.aws_region}a"
   map_public_ip_on_launch = true
-  tags = merge(local.common_tags, { Name = "${var.project_name}-subnet" })
+  tags                    = merge(local.common_tags, { Name = "${var.project_name}-subnet" })
 }
 
 resource "aws_security_group" "task" {
@@ -93,9 +93,9 @@ resource "aws_ecs_task_definition" "app" {
   execution_role_arn       = aws_iam_role.task_execution.arn
 
   container_definitions = jsonencode([{
-    name      = "app"
-    image     = "${aws_ecr_repository.app.repository_url}:${var.image_tag}"
-    essential = true
+    name         = "app"
+    image        = "${aws_ecr_repository.app.repository_url}:${var.image_tag}"
+    essential    = true
     portMappings = [{ containerPort = 8080, hostPort = 8080, protocol = "tcp" }]
     environment = [
       { name = "APP_NAME", value = "ph-ecs-demo" },
