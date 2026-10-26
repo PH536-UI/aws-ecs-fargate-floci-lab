@@ -16,14 +16,17 @@ On October 25, 2026, the local flow was executed and the emulated ECS response c
 - Primary deployment with `rolloutState: COMPLETED`.
 - Service event: `has reached a steady state`.
 
-The sanitized evidence is available at [docs/en/evidence/local-ecs-deployment-2026-10-25.md](docs/en/evidence/local-ecs-deployment-2026-10-25.md). This validates the local Floci flow, not an execution in a real AWS account.
+- [Sanitized text evidence](docs/en/evidence/local-ecs-deployment-2026-10-25.md)
+- [Video evidence, downloadable from the GitHub Release](docs/en/evidence/video-evidence.md)
+
+This validates the local Floci flow, not an execution in a real AWS account.
 
 ## What this lab demonstrates
 - Dockerizing a minimal HTTP application.
 - Image registry flow through an Amazon ECR-compatible API.
 - ECS, Fargate, network, and IAM resources declared with Terraform.
 - A CI pipeline for Python syntax, Docker build, and Terraform validation.
-- A reproducible local deployment and cleanup process with evidence.
+- A reproducible local deployment and cleanup process with text and video evidence.
 
 ## Architecture
 ```text
@@ -66,14 +69,16 @@ docker compose down
 
 ## Known limitations
 - Floci is not AWS and does not represent the availability, security, performance, permissions, or billing of a real account.
+- The videos record a local validation and are not evidence of production AWS operations.
 - GitHub Actions **does not deploy**: hosted runners cannot reach a local Floci instance, and the project stores no cloud credentials.
-- Before adapting this project to real AWS, review IAM, VPC, subnets, NAT/load balancer, logging, secrets, costs, and security controls. AWS CLI configuration is a deliberate future migration step, not part of this lab.
+- Before adapting this project to real AWS, review IAM, VPC, subnets, NAT/load balancer, logging, secrets, costs, and security controls.
 
 ## Documentation
 - [Architecture decisions](docs/en/architecture.md)
 - [Costs and safety](docs/en/cost-and-safety.md)
 - [Local runbook](docs/en/runbook.md)
 - [Portfolio summary](docs/en/portfolio-summary.md)
+- [Portuguese documentation](docs/)
 
 ## License
 MIT. See [LICENSE](LICENSE).
