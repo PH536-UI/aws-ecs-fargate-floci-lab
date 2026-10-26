@@ -16,14 +16,17 @@ Em 25 de outubro de 2026, o fluxo local foi executado e a saída do ECS emulado 
 - Deployment primário com `rolloutState: COMPLETED`.
 - Evento do serviço: `has reached a steady state`.
 
-A evidência sanitizada está em [docs/evidence/local-ecs-deployment-2026-10-25.md](docs/evidence/local-ecs-deployment-2026-10-25.md). Esse resultado valida o fluxo local no Floci, e não uma execução em uma conta AWS real.
+- [Evidência textual sanitizada](docs/evidence/local-ecs-deployment-2026-10-25.md)
+- [Vídeos de evidência, com download pela Release do GitHub](docs/evidence/video-evidence.md)
+
+Esse resultado valida o fluxo local no Floci, e não uma execução em uma conta AWS real.
 
 ## O que este laboratório demonstra
 - Dockerização de uma aplicação HTTP mínima.
 - Registro de imagem via API compatível com Amazon ECR.
 - Recursos ECS, Fargate, rede e IAM declarados em Terraform.
 - Pipeline de CI para sintaxe Python, build Docker e validação Terraform.
-- Processo de deploy e limpeza reproduzível, com evidências locais.
+- Processo de deploy e limpeza reproduzível, com evidências locais em texto e vídeo.
 
 ## Arquitetura
 ```text
@@ -66,8 +69,9 @@ docker compose down
 
 ## Limitações conhecidas
 - Floci não é AWS e não equivale a disponibilidade, segurança, performance, permissões e cobrança de uma conta real.
+- Os vídeos registram a validação local; não constituem prova de operação produtiva na AWS.
 - O GitHub Actions **não faz deploy**: runners hospedados não acessam Floci local e o projeto não armazena credenciais cloud.
-- Antes de adaptar para AWS real, revise IAM, VPC, subnets, NAT/load balancer, logs, segredos, custos e controles de segurança. A configuração da AWS CLI será uma etapa deliberada dessa migração, não deste laboratório.
+- Antes de adaptar para AWS real, revise IAM, VPC, subnets, NAT/load balancer, logs, segredos, custos e controles de segurança.
 
 ## Documentação
 - [Decisões de arquitetura](docs/architecture.md)
